@@ -10734,7 +10734,7 @@ T001, teacher, Jane, Smith</code>
       }
     }
 
-    function closeCameraCapture() {
+    function closeCameraCapture(clearPhotoData = true) {
       const overlay = document.getElementById('cameraModalOverlay');
       const video = document.getElementById('cameraVideo');
       const content = document.getElementById('cameraModalContent');
@@ -10753,7 +10753,9 @@ T001, teacher, Jane, Smith</code>
       
       video.srcObject = null;
       currentCameraMode = null;
-      window.registrationCameraPhotoData = null;
+      if (clearPhotoData) {
+        window.registrationCameraPhotoData = null;
+      }
     }
 
     function capturePhoto() {
@@ -10805,7 +10807,7 @@ T001, teacher, Jane, Smith</code>
         setSettingsCameraPhoto(photoData);
       }
       
-      closeCameraCapture();
+      closeCameraCapture(false);
     }
 
     function setRegistrationCameraPhoto(photoData) {
