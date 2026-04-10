@@ -2933,16 +2933,10 @@
           </div>
 
           <div class="form-group">
-            <label for="srStudentId">Student ID (For System)</label>
-            <input type="text" id="srStudentId" class="form-input" placeholder="Enter unique student ID" required>
-            <div class="form-error" id="srStudentIdErr">Student ID is required and must be unique.</div>
-          </div>
-
-          <div class="form-group">
-            <label for="srAuthId">🔐 Authorized ID (Required)</label>
+            <label for="srAuthId">🔐 Unique ID (Authorized by House Team Manager)</label>
             <input type="text" id="srAuthId" class="form-input" placeholder="Enter your Authorized ID" required>
             <div class="form-error" id="srAuthIdErr">Authorized ID is required (provided by House Team Manager).</div>
-            <small style="color:var(--text-2);font-size:0.8rem;margin-top:4px;">This ID must be on the approved list from your House Team Manager.</small>
+            <small style="color:var(--text-2);font-size:0.8rem;margin-top:4px;">This unique ID is provided and approved by your House Team Manager.</small>
           </div>
 
           <div class="form-group">
@@ -3020,9 +3014,9 @@
         <!-- ===== STUDENT LOGIN FORM ===== -->
         <form class="auth-form" id="studentLoginForm" data-main-tab="student" data-mode="login" novalidate>
           <div class="form-group">
-            <label for="slStudentId">Student ID</label>
-            <input type="text" id="slStudentId" class="form-input" placeholder="Enter your Student ID" required>
-            <div class="form-error" id="slStudentIdErr">Student ID is required.</div>
+            <label for="slStudentId">Authorized ID</label>
+            <input type="text" id="slStudentId" class="form-input" placeholder="Enter your Authorized ID" required>
+            <div class="form-error" id="slStudentIdErr">Authorized ID is required.</div>
           </div>
 
           <div class="form-group">
@@ -3037,9 +3031,9 @@
         <!-- ===== TEACHER LOGIN FORM ===== -->
         <form class="auth-form" id="teacherLoginForm" data-main-tab="teacher" data-mode="login" novalidate>
           <div class="form-group">
-            <label for="tlTeacherId">Teacher ID</label>
-            <input type="text" id="tlTeacherId" class="form-input" placeholder="Enter your Teacher ID" required>
-            <div class="form-error" id="tlTeacherIdErr">Teacher ID is required.</div>
+            <label for="tlTeacherId">Authorized ID</label>
+            <input type="text" id="tlTeacherId" class="form-input" placeholder="Enter your Authorized ID" required>
+            <div class="form-error" id="tlTeacherIdErr">Authorized ID is required.</div>
           </div>
 
           <div class="form-group">
@@ -3076,16 +3070,10 @@
           </div>
 
           <div class="form-group">
-            <label for="trTeacherId">Teacher ID (For System)</label>
-            <input type="text" id="trTeacherId" class="form-input" placeholder="Enter unique Teacher ID" required>
-            <div class="form-error" id="trTeacherIdErr">Teacher ID is required and must be unique.</div>
-          </div>
-
-          <div class="form-group">
-            <label for="trAuthId">🔐 Authorized ID (Required)</label>
+            <label for="trAuthId">🔐 Unique ID (Authorized by House Team Manager)</label>
             <input type="text" id="trAuthId" class="form-input" placeholder="Enter your Authorized ID" required>
             <div class="form-error" id="trAuthIdErr">Authorized ID is required (provided by House Team Manager).</div>
-            <small style="color:var(--text-2);font-size:0.8rem;margin-top:4px;">This ID must be on the approved list from your House Team Manager.</small>
+            <small style="color:var(--text-2);font-size:0.8rem;margin-top:4px;">This unique ID is provided and approved by your House Team Manager.</small>
           </div>
 
           <div class="form-group">
@@ -4721,7 +4709,6 @@
       const firstName = document.getElementById('srFirstName').value.trim();
       const familyName = document.getElementById('srFamilyName').value.trim();
       const email = document.getElementById('srEmail').value.trim();
-      const studentId = document.getElementById('srStudentId').value.trim();
       const authId = document.getElementById('srAuthId').value.trim();
       const password = document.getElementById('srPassword').value;
       const confirmPassword = document.getElementById('srConfirmPassword').value;
@@ -4735,17 +4722,7 @@
       if (!firstName) { showError('srFirstNameErr'); valid = false; }
       if (!familyName) { showError('srFamilyNameErr'); valid = false; }
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('srEmailErr'); valid = false; }
-      if (!studentId) { showError('srStudentIdErr'); valid = false; }
       if (!authId) { showError('srAuthIdErr'); valid = false; }
-
-      /* Check unique Student ID */
-      if (studentId) {
-        const existing = sdkQuery('students', [{ field: 'studentId', operator: 'eq', value: studentId }]);
-        if (existing.length > 0) {
-          showError('srStudentIdErr');
-          valid = false;
-        }
-      }
 
       if (!password || password.length < 6) { showError('srPasswordErr'); valid = false; }
       if (password !== confirmPassword) { showError('srConfirmPasswordErr'); valid = false; }
@@ -4816,7 +4793,7 @@
         firstName: finalFirstName,
         familyName: finalLastName,
         email,
-        studentId,
+        studentId: authId.toUpperCase(),
         authorizedId: authId.toUpperCase(),
         password: hashedPassword,
         gender: gender.value,
@@ -4883,7 +4860,7 @@
       clearErrors('sl');
       let valid = true;
 
-      const studentId = document.getElementById('slStudentId').value.trim();
+      const studentId = document.getElementById('slStudentId').value.trim().toUpperCase();
       const password = document.getElementById('slPassword').value;
 
       if (!studentId) { showError('slStudentIdErr'); valid = false; }
@@ -4920,7 +4897,6 @@
       const title = document.getElementById('trTitle').value;
       const firstName = document.getElementById('trFirstName').value.trim();
       const familyName = document.getElementById('trFamilyName').value.trim();
-      const teacherId = document.getElementById('trTeacherId').value.trim();
       const authId = document.getElementById('trAuthId').value.trim();
       const email = document.getElementById('trEmail').value.trim();
       const managerCode = document.getElementById('trManagerCode').value.trim();
@@ -4930,27 +4906,22 @@
       if (!title) { showError('trTitleErr'); valid = false; }
       if (!firstName) { showError('trFirstNameErr'); valid = false; }
       if (!familyName) { showError('trFamilyNameErr'); valid = false; }
-      if (!teacherId) { showError('trTeacherIdErr'); valid = false; }
       if (!authId) { showError('trAuthIdErr'); valid = false; }
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('trEmailErr'); valid = false; }
       if (!password || password.length < 6) { showError('trPasswordErr'); valid = false; }
       if (password !== confirmPassword) { showError('trConfirmPasswordErr'); valid = false; }
 
-      /* Check unique Teacher ID */
-      if (teacherId) {
-        const existing = sdkQuery('teachers', [{ field: 'teacherId', operator: 'eq', value: teacherId }]);
-        if (existing.length > 0) {
-          showError('trTeacherIdErr');
-          valid = false;
-        }
-      }
 
       if (!valid) return;
 
       /* *** GATEKEEPER: Validate Authorized ID *** */
       const authValidation = await validateAuthorizedId(authId, 'teacher');
       if (!authValidation.valid) {
-        showError('trAuthIdErr', authValidation.error);
+        const errorElement = document.getElementById('trAuthIdErr');
+        if (errorElement) {
+          errorElement.textContent = authValidation.error;
+          errorElement.style.display = 'block';
+        }
         return;
       }
 
@@ -4979,7 +4950,7 @@
         title,
         firstName,
         familyName,
-        teacherId,
+        teacherId: authId.toUpperCase(),
         authorizedId: authId.toUpperCase(),
         email,
         password: hashedPassword,
@@ -5016,7 +4987,7 @@
       clearErrors('tl');
       let valid = true;
 
-      const teacherId = document.getElementById('tlTeacherId').value.trim();
+      const teacherId = document.getElementById('tlTeacherId').value.trim().toUpperCase();
       const password = document.getElementById('tlPassword').value;
 
       if (!teacherId) { showError('tlTeacherIdErr'); valid = false; }
@@ -10567,7 +10538,7 @@ T001, teacher, Jane, Smith</code>
         html += `</div>`;
       }
       
-      <!-- ID Input Form -->
+      // ID Input Form
       html += `<div class="form-group">`;
       html += `<label for="settAuthorizedId">🔐 ${student.authorizedId ? 'New ' : ''}Authorized ID</label>`;
       html += `<input type="text" id="settAuthorizedId" class="form-input" placeholder="Enter your authorized ID" style="text-transform:uppercase;">`;
