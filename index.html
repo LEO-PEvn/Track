@@ -223,6 +223,41 @@
     }
 
     /* =============================================
+       AVATAR ANIMATIONS - Chibi Avatar Interactions
+       ============================================= */
+    @keyframes avatarCelebrate {
+      0% { transform: scale(1) rotate(0deg) translateY(0); }
+      25% { transform: scale(1.1) rotate(-8deg) translateY(-8px); }
+      50% { transform: scale(1.15) rotate(8deg) translateY(-12px); }
+      75% { transform: scale(1.1) rotate(-6deg) translateY(-8px); }
+      100% { transform: scale(1) rotate(0deg) translateY(0); }
+    }
+
+    @keyframes avatarBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    @keyframes avatarShake {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      25% { transform: translateX(-4px) rotate(-2deg); }
+      75% { transform: translateX(4px) rotate(2deg); }
+    }
+
+    @keyframes avatarHeartbeat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.3); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes avatarPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* =============================================
        MODAL
        ============================================= */
     .modal-overlay {
@@ -1247,33 +1282,67 @@
     .profile-card {
       background: var(--surface);
       border-radius: 20px;
-      padding: 24px;
+      padding: 20px;
       text-align: center;
       margin-bottom: 16px;
       border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* =============================================
+       CHIBI AVATAR STYLES
+       ============================================= */
+    .avatar-container-chibi {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s ease;
+    }
+
+    .avatar-container-chibi:hover {
+      transform: scale(1.08);
+    }
+
+    .avatar-container-chibi svg {
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
+
+    .avatar-container-chibi svg:hover {
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+    }
+
+    .avatar-container-chibi svg:active {
+      transform: scale(0.95);
     }
 
     .profile-photo-small {
-      width: 80px;
-      height: 80px;
+      width: 92px;
+      height: 92px;
       border-radius: 50%;
       object-fit: cover;
       border: 3px solid var(--border);
-      margin-bottom: 12px;
       background: var(--surface-2);
+      display: block;
+      margin: 0 auto 4px;
     }
 
     .profile-name {
       font-size: 1.25rem;
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 4px;
+      margin-bottom: 1px;
     }
 
     .profile-class {
       font-size: 0.9rem;
       color: var(--text-2);
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
 
     .house-pill {
@@ -1283,7 +1352,7 @@
       color: white;
       font-weight: 700;
       font-size: 0.85rem;
-      margin-bottom: 12px;
+      margin-bottom: 4px;
       text-shadow: 0 1px 2px rgba(0,0,0,0.2);
     }
 
@@ -1299,8 +1368,8 @@
     .profile-stats {
       display: flex;
       justify-content: center;
-      gap: 32px;
-      margin-top: 12px;
+      gap: 24px;
+      margin-top: 8px;
     }
 
     .profile-stat {
@@ -1326,10 +1395,30 @@
       margin-bottom: 20px;
     }
 
+    .level-badge {
+      position: static;
+      transform: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 2px solid var(--surface);
+      margin-bottom: 10px;
+    }
+
     .avatar-ring {
       position: relative;
       display: inline-block;
       margin-bottom: 12px;
+      min-width: 140px;
+      min-height: 140px;
+      width: auto;
+      height: auto;
     }
 
     .avatar-ring img {
@@ -1340,12 +1429,20 @@
       background: var(--surface-2);
     }
 
+    #avatarFigureWrapper {
+      width: 100%;
+      height: 100%;
+      margin: 0 auto;
+      position: relative;
+    }
+
     .avatar-ring .ring {
       position: absolute;
-      inset: -6px;
+      inset: 0;
       border-radius: 50%;
       border: 4px solid #ccc;
       pointer-events: none;
+      box-sizing: border-box;
     }
 
     .avatar-ring .ring.level-basic {
@@ -1370,20 +1467,6 @@
     @keyframes pulseGlow {
       0%, 100% { box-shadow: 0 0 8px 2px currentColor; }
       50% { box-shadow: 0 0 20px 6px currentColor; }
-    }
-
-    .level-badge {
-      position: absolute;
-      bottom: -4px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--accent);
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 2px 12px;
-      border-radius: 20px;
-      border: 2px solid var(--surface);
     }
 
     .achievement-badges {
@@ -1669,25 +1752,193 @@
     }
 
     .avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.5rem;
-      background: var(--surface-2);
-      border: 3px solid var(--accent);
-      margin-bottom: 8px;
-      transition: transform 300ms ease, filter 300ms ease;
+      width: 140px;
+      height: 280px;
       position: relative;
-      overflow: hidden;
+      margin: 0 auto 12px;
+      display: block;
+      overflow: visible;
+    }
+
+    .avatar .avatar-figure {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: block;
     }
 
     .avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      border-radius: 24px;
+    }
+
+    .avatar-head,
+    .avatar-hair,
+    .avatar-torso,
+    .avatar-arm,
+    .avatar-hip,
+    .avatar-leg,
+    .avatar-shoe {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      box-sizing: border-box;
+    }
+
+    .avatar-head {
+      top: 4%;
+      width: 52px;
+      height: 52px;
+      background: #f4c2a3;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      box-shadow: inset 0 4px 0 rgba(0,0,0,0.05);
+    }
+
+    .avatar-hair {
+      top: 0;
+      width: 60px;
+      height: 24px;
+      border-radius: 50% 50% 40% 40%;
+      background: #5d4037;
+    }
+
+    .avatar-torso {
+      top: 24%;
+      width: 72px;
+      height: 92px;
+      background: var(--accent);
+      border-radius: 28px 28px 24px 24px;
+    }
+
+    .avatar-arm {
+      top: 26%;
+      width: 16px;
+      height: 70px;
+      background: #f4c2a3;
+      border-radius: 14px;
+    }
+
+    .avatar-arm.left {
+      left: 18%;
+      transform: translateX(-50%);
+    }
+
+    .avatar-arm.right {
+      left: 82%;
+      transform: translateX(-50%);
+    }
+
+    .avatar-hip {
+      top: 58%;
+      width: 84px;
+      height: 42px;
+      background: rgba(102, 126, 234, 0.9);
+      border-radius: 26px;
+    }
+
+    .avatar-leg {
+      top: 74%;
+      width: 20px;
+      height: 82px;
+      background: #f4c2a3;
+      border-radius: 14px;
+    }
+
+    .avatar-leg.left {
+      left: 34%;
+      transform: translateX(-50%);
+    }
+
+    .avatar-leg.right {
+      left: 66%;
+      transform: translateX(-50%);
+    }
+
+    .avatar-shoe {
+      top: 96%;
+      width: 28px;
+      height: 14px;
+      background: #333;
+      border-radius: 10px;
+    }
+
+    .avatar-shoe.left {
+      left: 34%;
+      transform: translateX(-50%);
+    }
+
+    .avatar-shoe.right {
+      left: 66%;
+      transform: translateX(-50%);
+    }
+
+    .avatar-gender-female .avatar-hair {
+      width: 72px;
+      height: 32px;
+      top: -4px;
+      border-radius: 50% 50% 42% 42%;
+    }
+
+    .avatar-gender-female .avatar-torso {
+      width: 68px;
+      height: 86px;
+      border-radius: 28px 28px 32px 32px;
+      background: rgba(102, 126, 234, 0.95);
+    }
+
+    .avatar-gender-female .avatar-hip {
+      width: 84px;
+      height: 56px;
+      top: 60%;
+      border-radius: 34px 34px 50% 50%;
+      background: rgba(102, 126, 234, 0.9);
+    }
+
+    .avatar-gender-female .avatar-leg {
+      top: 80%;
+      height: 72px;
+    }
+
+    .avatar-muscle-low .avatar-torso {
+      width: 64px;
+      height: 82px;
+    }
+
+    .avatar-muscle-low .avatar-arm {
+      width: 14px;
+      height: 68px;
+    }
+
+    .avatar-muscle-medium .avatar-torso {
+      width: 74px;
+      height: 92px;
+    }
+
+    .avatar-muscle-medium .avatar-arm {
+      width: 18px;
+      height: 76px;
+    }
+
+    .avatar-muscle-high .avatar-torso {
+      width: 84px;
+      height: 104px;
+    }
+
+    .avatar-muscle-high .avatar-arm {
+      width: 22px;
+      height: 86px;
+    }
+
+    .avatar-muscle-high .avatar-leg {
+      width: 24px;
+      height: 90px;
+    }
+
+    .avatar-muscle-high .avatar-shoe {
+      width: 32px;
     }
 
     /* Strength stat: size scaling */
@@ -2998,7 +3249,7 @@
           <div class="form-group">
             <div class="form-group-label">Profile Picture (optional)</div>
             <div class="profile-pic-options">
-              <label class="profile-pic-btn">
+              <label class="profile-pic-btn" for="srProfilePic">
                 <span>📷 Choose</span>
                 <input type="file" id="srProfilePic" accept="image/*">
               </label>
@@ -3173,11 +3424,7 @@
 
         <!-- Avatar Centre -->
         <div class="avatar-centre">
-          <div class="avatar-ring" id="avatarRing">
-            <img id="avatarPhoto" src="" alt="Avatar">
-            <div class="ring" id="avatarRingBorder"></div>
-            <span class="level-badge" id="avatarLevel">Lv 1</span>
-          </div>
+          <span class="level-badge" id="avatarLevel">Lv 1</span>
           <div class="achievement-badges" id="achievementBadges"></div>
           <div class="progress-bar-container">
             <div class="progress-bar-fill" id="levelProgressBar" style="width:0%"></div>
@@ -3729,80 +3976,497 @@
 
     function getAvatarDisplay(student) {
       const level = getLevel(student.xp || 0);
-      const gender = student.gender || 'Male';
-      const profilePic = student.profilePic;
+      const gender = (student.gender || 'Male').toLowerCase();
+      let muscleLevel = 'low';
+      if (level >= 20) {
+        muscleLevel = 'high';
+      } else if (level >= 10) {
+        muscleLevel = 'medium';
+      }
+      return { type: 'figure', gender, level, muscleLevel };
+    }
+
+    /* =============================================
+       CHIBI AVATAR SYSTEM - Cute Expressive Avatars
+       
+       Features:
+       - SVG-based cute/chibi style
+       - Small, adorable appearance
+       - Customizable hairstyles
+       - Multiple emotional expressions
+       - Level & stats visualization
+       - Animation on interactions
+       ============================================= */
+    
+    /* Hairstyle Database - Cute Chibi Styles */
+    const HAIRSTYLES = {
+      short_straight: { 
+        name: 'Short Straight', 
+        render: (hairColor) => `<path d="M28,15 Q35,10 42,15 L44,35 L26,35 Z" fill="${hairColor}"/>`
+      },
+      long_wavy: { 
+        name: 'Long Wavy', 
+        render: (hairColor) => `
+          <path d="M26,18 Q20,35 24,55 L46,55 Q50,35 44,18" fill="${hairColor}"/>
+          <path d="M30,20 Q28,30 29,45" stroke="${hairColor}" stroke-width="1.5" fill="none" opacity="0.3"/>
+          <path d="M40,20 Q42,30 41,45" stroke="${hairColor}" stroke-width="1.5" fill="none" opacity="0.3"/>
+        `
+      },
+      bob_cute: { 
+        name: 'Bob Cut', 
+        render: (hairColor) => `
+          <path d="M25,18 Q20,22 21,38 Q28,42 35,42 Q42,42 49,38 Q50,22 45,18" fill="${hairColor}"/>
+          <path d="M30,16 Q35,12 40,16" stroke="${hairColor}" stroke-width="2" fill="none"/>
+        `
+      },
+      twin_tails: { 
+        name: 'Twin Tails', 
+        render: (hairColor) => `
+          <path d="M28,15 Q32,12 35,15 L36,20 L34,20" fill="${hairColor}"/>
+          <path d="M42,15 Q38,12 35,15 L34,20 L36,20" fill="${hairColor}"/>
+          <circle cx="28" cy="45" r="5" fill="${hairColor}"/>
+          <circle cx="42" cy="45" r="5" fill="${hairColor}"/>
+          <line x1="28" y1="20" x2="28" y2="40" stroke="${hairColor}" stroke-width="2"/>
+          <line x1="42" y1="20" x2="42" y2="40" stroke="${hairColor}" stroke-width="2"/>
+        `
+      },
+      messy_bun: { 
+        name: 'Messy Bun', 
+        render: (hairColor) => `
+          <path d="M26,18 L30,15 L40,14 L44,18" fill="${hairColor}"/>
+          <circle cx="35" cy="18" r="8" fill="${hairColor}"/>
+          <path d="M28,25 L42,25" stroke="${hairColor}" stroke-width="1.5" fill="none" opacity="0.4"/>
+        `
+      }
+    };
+
+    /* Get hairstyle for student (returns default if not set) */
+    function getHairstyle(student) {
+      const style = student.hairstyle || 'short_straight';
+      return HAIRSTYLES[style] || HAIRSTYLES['short_straight'];
+    }
+
+    /* =============================================
+       AVATAR PROGRESSION SYSTEM - Level-Based Evolution
+       ============================================= */
+    
+    /* Get avatar size based on level (Level 1 = 80px, Level 50 = 160px) */
+    function getAvatarSizeByLevel(level) {
+      if (level <= 0) level = 1;
+      if (level > 50) level = 50;
       
-      /* Use profile picture if exists, else generate avatar */
-      if (profilePic) {
-        return { type: 'photo', src: profilePic, level, gender };
+      /* Exponential growth: Level 1 = 80px, Level 50 = 160px */
+      const minSize = 80;
+      const maxSize = 160;
+      const progress = (level - 1) / 49; /* 0 to 1 */
+      const easeProgress = progress < 0.5 
+        ? 2 * progress * progress
+        : -1 + (4 - 2 * progress) * progress;
+      
+      return Math.round(minSize + (maxSize - minSize) * easeProgress);
+    }
+
+    /* Get avatar ring size based on level (Level 1 = 140px, Level 50 = 220px) */
+    function getAvatarRingSizeByLevel(level) {
+      if (level <= 0) level = 1;
+      if (level > 50) level = 50;
+      const minRing = 140;
+      const maxRing = 220;
+      const progress = (level - 1) / 49;
+      const easeProgress = progress < 0.5 
+        ? 2 * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+      return Math.round(minRing + (maxRing - minRing) * easeProgress);
+    }
+
+    function getAvatarDisplaySize(level, size = 'small') {
+      if (typeof size === 'number') return size;
+      if (size === 'dynamic') {
+        const ringSize = getAvatarRingSizeByLevel(level);
+        return Math.max(80, Math.round(ringSize * 0.62));
+      }
+      if (size === 'auto') return getAvatarSizeByLevel(level);
+      const sizes = { small: 80, medium: 120, large: 160 };
+      return sizes[size] || 80;
+    }
+
+    /* Get glow intensity based on level */
+    function getGlowIntensity(level) {
+      if (level < 10) return 0; /* No glow before level 10 */
+      if (level < 20) return 0.4;
+      if (level < 30) return 0.6;
+      if (level < 40) return 0.8;
+      return 1.0; /* Max glow at level 40+ */
+    }
+
+    /* Determine muscle/detail level for avatar */
+    function getPhysicalLevel(level) {
+      if (level <= 9) return 'young'; /* Cute chibi */
+      if (level <= 19) return 'athletic'; /* More defined */
+      if (level <= 29) return 'strong'; /* Athletic build */
+      if (level <= 39) return 'elite'; /* Powerful */
+      return 'legendary'; /* Ultimate form at 40+ */
+    }
+
+    /* Get available emotes based on level */
+    function getAvailableEmotes(level) {
+      const baseEmotes = ['happy', 'determined', 'victory', 'thinking', 'idle'];
+      if (level >= 10) baseEmotes.push('cool');
+      if (level >= 20) baseEmotes.push('proud');
+      if (level >= 30) baseEmotes.push('warrior');
+      if (level >= 40) baseEmotes.push('legendary');
+      if (level >= 50) baseEmotes.push('supreme');
+      return baseEmotes;
+    }
+
+    /* Get emotion state based on context */
+    function getAvatarEmotion(context = 'normal') {
+      const emotionMap = {
+        normal: 'happy',
+        focused: 'determined',
+        celebrating: 'victory',
+        thinking: 'thinking',
+        tired: 'idle',
+        quiz: 'thinking'
+      };
+      return emotionMap[context] || 'happy';
+    }
+
+    /* SVG Cute Chibi Avatar with Full Expressions - LEVEL-BASED PROGRESSION */
+    function renderChibiAvatar(student, size = 'small', emotion = 'happy') {
+      const level = getLevel(student.xp || 0);
+      const gender = (student.gender || 'Male').toLowerCase();
+      const hairstyle = getHairstyle(student);
+      const physicalLevel = getPhysicalLevel(level);
+      const glowIntensity = getGlowIntensity(level);
+      
+      /* Dynamic size based on level (grows from 80px at Lv1 to 160px at Lv50) */
+      let avatarSize = 80; /* Default */
+      if (size === 'auto' || size === 'dynamic') {
+        avatarSize = getAvatarSizeByLevel(level);
       } else {
-        /* Fallback to gender-based emoji */
-        const faces = gender === 'Female' ? ['👩', '👧', '💃'] : ['👨', '👦', '🧑'];
-        const face = faces[Math.floor(Math.random() * faces.length)];
-        return { type: 'emoji', emoji: face, level, gender };
+        const sizes = { small: 80, medium: 120, large: 160 };
+        avatarSize = sizes[size] || 80;
+      }
+      
+      /* Soft, appealing colors - evolve with physical level */
+      const skinColor = gender === 'female' ? '#FDBCB4' : '#F5DEB3';
+      const hairColor = student.hairColor || (gender === 'female' ? '#D4587F' : '#8B5A3C');
+      const outfitColor = student.outfitColor || (gender === 'female' ? '#FF69B4' : '#4169E1');
+      
+      /* Emotion expressions - each with unique eye sizes, mouth, and extras */
+      const emotions = {
+        happy: { 
+          eyeSize: 5.5, 
+          mouthCurve: 'M28,45 Q35,50 42,45', 
+          blush: true,
+          eyebrows: 'normal',
+          extra: ''
+        },
+        determined: { 
+          eyeSize: 4, 
+          mouthCurve: 'M28,45 L42,45', 
+          blush: false,
+          eyebrows: 'angry',
+          extra: ''
+        },
+        victory: { 
+          eyeSize: 6.5, 
+          mouthCurve: 'M28,48 Q35,53 42,48', 
+          blush: true,
+          eyebrows: 'happy',
+          extra: '<text x="20" y="20" font-size="18">⭐</text><text x="56" y="22" font-size="18">⭐</text>'
+        },
+        thinking: { 
+          eyeSize: 5, 
+          mouthCurve: 'M32,46 Q35,44 38,46', 
+          blush: true,
+          eyebrows: 'raised',
+          extra: '<circle cx="50" cy="25" r="2" fill="#333" opacity="0.4"/><circle cx="54" cy="28" r="1.5" fill="#333" opacity="0.4"/>'
+        },
+        idle: { 
+          eyeSize: 4, 
+          mouthCurve: 'M28,44 Q35,45 42,44', 
+          blush: false,
+          eyebrows: 'normal',
+          extra: ''
+        },
+        cool: {
+          eyeSize: 4.5,
+          mouthCurve: 'M28,46 Q35,45 42,46',
+          blush: false,
+          eyebrows: 'cool',
+          extra: '<rect x="22" y="30" width="8" height="6" rx="1" fill="none" stroke="#333" stroke-width="0.8"/><rect x="40" y="30" width="8" height="6" rx="1" fill="none" stroke="#333" stroke-width="0.8"/>'
+        },
+        proud: {
+          eyeSize: 5.2,
+          mouthCurve: 'M28,46 Q35,51 42,46',
+          blush: true,
+          eyebrows: 'proud',
+          extra: '<circle cx="35" cy="20" r="1" fill="gold"/>'
+        },
+        warrior: {
+          eyeSize: 5.8,
+          mouthCurve: 'M28,44 Q35,49 42,44',
+          blush: false,
+          eyebrows: 'warrior',
+          extra: '<path d="M20,30 Q25,28 30,30" stroke="gold" stroke-width="1.2" fill="none"/>'
+        },
+        legendary: {
+          eyeSize: 6.5,
+          mouthCurve: 'M28,48 Q35,54 42,48',
+          blush: true,
+          eyebrows: 'proud',
+          extra: '<circle cx="35" cy="15" r="8" fill="none" stroke="gold" stroke-width="1.5" opacity="0.8"/>'
+        },
+        supreme: {
+          eyeSize: 7,
+          mouthCurve: 'M28,49 Q35,55 42,49',
+          blush: true,
+          eyebrows: 'proud',
+          extra: '<circle cx="35" cy="15" r="10" fill="gold" opacity="0.3"/><circle cx="35" cy="15" r="8" fill="none" stroke="gold" stroke-width="2"/>'
+        }
+      };
+      
+      const expr = emotions[emotion] || emotions['happy'];
+      
+      /* Glow filter based on level */
+      let filterStyle = 'filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));';
+      if (glowIntensity > 0) {
+        const glowColor = `rgba(102, 126, 234, ${glowIntensity})`;
+        filterStyle += ` drop-shadow(0 0 ${Math.ceil(glowIntensity * 12)}px ${glowColor})`;
+      }
+      
+      /* Physical progression adjustments */
+      let bodyScale = 1;
+      let muscleStroke = 0.5;
+      if (physicalLevel === 'athletic') {
+        bodyScale = 1.05;
+        muscleStroke = 0.7;
+      } else if (physicalLevel === 'strong') {
+        bodyScale = 1.1;
+        muscleStroke = 0.9;
+      } else if (physicalLevel === 'elite') {
+        bodyScale = 1.15;
+        muscleStroke = 1.1;
+      } else if (physicalLevel === 'legendary') {
+        bodyScale = 1.2;
+        muscleStroke = 1.3;
+      }
+      
+      let svg = `<svg width="${avatarSize}" height="${avatarSize}" viewBox="0 0 70 85" style="${filterStyle} transition: transform 0.2s ease;">`;
+      
+      /* Head */
+      svg += `<circle cx="35" cy="35" r="20" fill="${skinColor}" stroke="#333" stroke-width="0.5"/>`;
+      
+      /* Hair */
+      svg += hairstyle.render(hairColor);
+      
+      /* Eyes background */
+      svg += `<circle cx="28" cy="32" r="6" fill="white" stroke="#333" stroke-width="0.5"/>`;
+      svg += `<circle cx="42" cy="32" r="6" fill="white" stroke="#333" stroke-width="0.5"/>`;
+      
+      /* Pupils */
+      svg += `<circle cx="28" cy="33" r="${expr.eyeSize}" fill="#333"/>`;
+      svg += `<circle cx="42" cy="33" r="${expr.eyeSize}" fill="#333"/>`;
+      
+      /* Eye shine (cute sparkle) */
+      svg += `<circle cx="29.5" cy="31" r="2" fill="white"/>`;
+      svg += `<circle cx="43.5" cy="31" r="2" fill="white"/>`;
+      
+      /* Eyebrows */
+      if (expr.eyebrows === 'angry') {
+        svg += `<path d="M25,27 Q30,24 35,27" stroke="#333" stroke-width="1.2" fill="none"/>`;
+        svg += `<path d="M35,27 Q40,24 45,27" stroke="#333" stroke-width="1.2" fill="none"/>`;
+      } else if (expr.eyebrows === 'raised') {
+        svg += `<path d="M25,26 Q30,23 35,26" stroke="#333" stroke-width="1.2" fill="none"/>`;
+        svg += `<path d="M35,26 Q40,23 45,26" stroke="#333" stroke-width="1.2" fill="none"/>`;
+      } else if (expr.eyebrows === 'happy') {
+        svg += `<path d="M25,28 Q30,27 35,28" stroke="#333" stroke-width="1.2" fill="none"/>`;
+        svg += `<path d="M35,28 Q40,27 45,28" stroke="#333" stroke-width="1.2" fill="none"/>`;
+      } else if (expr.eyebrows === 'cool') {
+        svg += `<line x1="24" y1="29" x2="36" y2="29" stroke="#333" stroke-width="1.2"/>`;
+        svg += `<line x1="44" y1="29" x2="56" y2="29" stroke="#333" stroke-width="1.2"/>`;
+      } else if (expr.eyebrows === 'proud') {
+        svg += `<path d="M25,27 Q30,25 35,27" stroke="#333" stroke-width="1.3" fill="none"/>`;
+        svg += `<path d="M35,27 Q40,25 45,27" stroke="#333" stroke-width="1.3" fill="none"/>`;
+      } else if (expr.eyebrows === 'warrior') {
+        svg += `<path d="M25,26 Q30,23 35,26" stroke="#333" stroke-width="1.5" fill="none"/>`;
+        svg += `<path d="M35,26 Q40,23 45,26" stroke="#333" stroke-width="1.5" fill="none"/>`;
+      } else {
+        svg += `<path d="M25,29 Q30,28 35,29" stroke="#333" stroke-width="1" fill="none"/>`;
+        svg += `<path d="M35,29 Q40,28 45,29" stroke="#333" stroke-width="1" fill="none"/>`;
+      }
+      
+      /* Nose */
+      svg += `<line x1="35" y1="35" x2="35" y2="40" stroke="#D4A574" stroke-width="0.8"/>`;
+      svg += `<circle cx="33" cy="40" r="1.5" fill="#D4A574"/>`;
+      svg += `<circle cx="37" cy="40" r="1.5" fill="#D4A574"/>`;
+      
+      /* Mouth */
+      svg += `<path d="${expr.mouthCurve}" stroke="#333" stroke-width="1.2" fill="none" stroke-linecap="round"/>`;
+      
+      /* Blush circles */
+      if (expr.blush) {
+        svg += `<ellipse cx="18" cy="42" rx="4" ry="3" fill="#FFB6D9" opacity="0.5"/>`;
+        svg += `<ellipse cx="52" cy="42" rx="4" ry="3" fill="#FFB6D9" opacity="0.5"/>`;
+      }
+      
+      /* Extra elements (stars, thinking bubbles, etc., accessories unlock) */
+      svg += expr.extra;
+      
+      /* Body with progression - gets more muscular */
+      const bodyWidth = 20 * bodyScale;
+      const bodyHeight = 15 * bodyScale;
+      svg += `<rect x="${35 - bodyWidth/2}" y="55" width="${bodyWidth}" height="${bodyHeight}" rx="3" fill="${outfitColor}" stroke="#333" stroke-width="${muscleStroke}"/>`;
+      svg += `<circle cx="${20}" cy="58" r="${3 * bodyScale}" fill="${outfitColor}" stroke="#333" stroke-width="${muscleStroke}"/>`;
+      svg += `<circle cx="${50}" cy="58" r="${3 * bodyScale}" fill="${outfitColor}" stroke="#333" stroke-width="${muscleStroke}"/>`;
+      
+      /* Muscle definition lines at higher levels */
+      if (level >= 20) {
+        svg += `<line x1="32" y1="58" x2="32" y2="68" stroke="#333" stroke-width="0.6" opacity="0.3"/>`;
+        svg += `<line x1="38" y1="58" x2="38" y2="68" stroke="#333" stroke-width="0.6" opacity="0.3"/>`;
+      }
+      if (level >= 40) {
+        svg += `<circle cx="35" cy="55" r="3" fill="none" stroke="gold" stroke-width="0.8" opacity="0.6"/>`;
+      }
+      
+      svg += `</svg>`;
+      
+      return svg;
+    }
+
+    /* Create personalized avatar HTML with level indicator and stats */
+    function renderAvatarHTML(student, includeStats = true, size = 'small', emotion = 'happy') {
+      const level = getLevel(student.xp || 0);
+      const stats = calculateAvatarStats(level);
+      const progress = getLevelProgress(student.xp || 0);
+      
+      let html = `<div class="avatar-container-chibi" style="position: relative; display: inline-block;">`;
+      
+      /* SVG Avatar */
+      html += renderChibiAvatar(student, size, emotion);
+      
+      /* Level Badge */
+      html += `<div style="position: absolute; top: -8px; right: -8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; box-shadow: 0 3px 10px rgba(102, 126, 234, 0.4); border: 2px solid white;">
+        Lv${level}
+      </div>`;
+      
+      if (includeStats) {
+        html += `<div style="margin-top: 10px; padding: 8px; background: rgba(0,0,0,0.03); border-radius: 6px; text-align: center; font-size: 10px;">`;
+        html += `<div style="display: flex; justify-content: space-around; gap: 8px; color: var(--text-2);">`;
+        html += `<div>💪 ${Math.floor(stats.strength * 10)}</div>`;
+        html += `<div>⚡ ${Math.floor(stats.agility)}</div>`;
+        html += `<div>🧘 ${stats.flexibility}</div>`;
+        html += `</div>`;
+        
+        /* Progress bar to next level */
+        if (level < 50) {
+          html += `<div style="margin-top: 6px; font-size: 9px; color: var(--text-2);">`;
+          html += `<div style="background: #e0e0e0; height: 4px; border-radius: 2px; overflow: hidden;">`;
+          html += `<div style="background: linear-gradient(90deg, #667eea, #764ba2); height: 100%; width: ${progress.percent}%; transition: width 0.3s ease;"></div>`;
+          html += `</div>`;
+          html += `<div style="margin-top: 2px;">${progress.current}/${progress.needed} XP</div>`;
+          html += `</div>`;
+        }
+        
+        html += `</div>`;
+      }
+      
+      html += `</div>`;
+      return html;
+    }
+
+    /* Animate avatar on interaction */
+    function animateAvatar(avatarElement, animation = 'celebrate') {
+      if (!avatarElement) return;
+      const svg = avatarElement.querySelector('svg');
+      if (!svg) return;
+      
+      if (animation === 'celebrate') {
+        svg.style.animation = 'none';
+        setTimeout(() => {
+          svg.style.animation = 'avatarCelebrate 0.6s ease-out';
+        }, 10);
+      } else if (animation === 'bounce') {
+        svg.style.animation = 'avatarBounce 0.5s ease-in-out';
+      } else if (animation === 'shake') {
+        svg.style.animation = 'avatarShake 0.4s ease-in-out';
       }
     }
 
-    function renderAvatarHTML(student, includeStats = true) {
-      const level = getLevel(student.xp || 0);
-      const avatar = getAvatarDisplay(student);
-      const stats = calculateAvatarStats(level);
-      
-      /* Determine stat-based CSS classes */
-      let strengthClass = '';
-      if (stats.strength > 1.3) strengthClass = 'strength-high';
-      else if (stats.strength > 1.15) strengthClass = 'strength-medium';
-      
-      let agilityClass = '';
-      if (stats.agility > 22) agilityClass = 'agility-high';
-      
-      let flexibilityClass = '';
-      if (stats.flexibility >= 3) flexibilityClass = 'flexibility-high';
-      
-      let html = `<div class="avatar-container">`;
-      html += `<div class="avatar ${strengthClass} ${agilityClass} ${flexibilityClass}">`;
-      
-      if (avatar.type === 'photo') {
-        html += `<img src="${avatar.src}" alt="${student.firstName}">`;
-      } else {
-        html += avatar.emoji;
+    /* Update avatar emotion dynamically */
+    function updateAvatarEmotion(avatarElement, emotion = 'happy') {
+      if (!avatarElement) return;
+      const student = { gender: 'Male', xp: 0 }; /* Default if not available */
+      const newSvg = renderChibiAvatar(student, 'small', emotion);
+      const currentSvg = avatarElement.querySelector('svg');
+      if (currentSvg) {
+        currentSvg.outerHTML = newSvg;
       }
+    }
+
+    /* =============================================
+       AVATAR CUSTOMIZATION SYSTEM
+       ============================================= */
+    
+    /* Set student hairstyle */
+    function setStudentHairstyle(studentId, hairstyle) {
+      const student = sdkLoad('students', studentId);
+      if (!student) return false;
       
-      html += `</div>`;
+      if (!HAIRSTYLES[hairstyle]) return false; /* Invalid hairstyle */
       
-      if (includeStats) {
-        html += `<div class="avatar-stats">`;
-        
-        /* Agility stat */
-        const agilityPercent = Math.round((stats.agility / 30) * 100);
-        html += `<div class="avatar-stat-bar">`;
-        html += `<span class="avatar-stat-label">⚡ Agility</span>`;
-        html += `<div class="avatar-stat-bar-bg"><div class="avatar-stat-bar-fill" style="width:${agilityPercent}%"></div></div>`;
-        html += `<span class="avatar-stat-value">${stats.agility}s</span>`;
-        html += `</div>`;
-        
-        /* Strength stat */
-        const strengthPercent = Math.round((stats.strength / 1.5) * 100);
-        html += `<div class="avatar-stat-bar">`;
-        html += `<span class="avatar-stat-label">💪 Strength</span>`;
-        html += `<div class="avatar-stat-bar-bg"><div class="avatar-stat-bar-fill" style="width:${strengthPercent}%"></div></div>`;
-        html += `<span class="avatar-stat-value">${(stats.strength * 100).toFixed(0)}%</span>`;
-        html += `</div>`;
-        
-        /* Flexibility stat */
-        const flexibilityPercent = Math.round((stats.flexibility / 5) * 100);
-        html += `<div class="avatar-stat-bar">`;
-        html += `<span class="avatar-stat-label">🔄 Skip</span>`;
-        html += `<div class="avatar-stat-bar-bg"><div class="avatar-stat-bar-fill" style="width:${flexibilityPercent}%"></div></div>`;
-        html += `<span class="avatar-stat-value">${stats.flexibility}</span>`;
-        html += `</div>`;
-        
-        html += `</div>`;
-      }
+      student.hairstyle = hairstyle;
+      sdkSave('students', studentId, student);
+      return true;
+    }
+
+    /* Set student hair color */
+    function setStudentHairColor(studentId, hairColor) {
+      const student = sdkLoad('students', studentId);
+      if (!student) return false;
       
-      html += `</div>`;
+      /* Validate hex color */
+      if (!/^#[0-9A-F]{6}$/i.test(hairColor)) return false;
       
-      return html;
+      student.hairColor = hairColor;
+      sdkSave('students', studentId, student);
+      return true;
+    }
+
+    /* Set student outfit color */
+    function setStudentOutfitColor(studentId, outfitColor) {
+      const student = sdkLoad('students', studentId);
+      if (!student) return false;
+      
+      /* Validate hex color */
+      if (!/^#[0-9A-F]{6}$/i.test(outfitColor)) return false;
+      
+      student.outfitColor = outfitColor;
+      sdkSave('students', studentId, student);
+      return true;
+    }
+
+    /* Get available hairstyles */
+    function getAvailableHairstyles() {
+      return Object.entries(HAIRSTYLES).map(([key, value]) => ({
+        id: key,
+        name: value.name
+      }));
+    }
+
+    /* Reset avatar to default */
+    function resetAvatarToDefault(studentId) {
+      const student = sdkLoad('students', studentId);
+      if (!student) return false;
+      
+      delete student.hairstyle;
+      delete student.hairColor;
+      delete student.outfitColor;
+      
+      sdkSave('students', studentId, student);
+      return true;
     }
 
     /* =============================================
@@ -5521,7 +6185,7 @@
       if (lesson10Sports.length > 0) {
         html += `<hr style="border:none;border-top:1px solid var(--border);margin:16px 0;">`;
         html += `<h4 style="margin-bottom:8px;color:var(--text);">Lesson 10 Assessment</h4>`;
-        html += `<div class="form-group"><label style="font-weight:600;font-size:0.85rem;color:var(--text-2);">Sport</label>
+        html += `<div class="form-group"><label for="tAssessSportSelect" style="font-weight:600;font-size:0.85rem;color:var(--text-2);">Sport</label>
           <select id="tAssessSportSelect" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font-size:0.85rem;min-height:40px;">
             <option value="">Select sport...</option>`;
         lesson10Sports.forEach(s => {
@@ -5626,7 +6290,7 @@
       });
 
       html += `<div class="form-group" style="margin-top:12px;">
-        <label style="font-weight:600;font-size:0.85rem;color:var(--text-2);">Teacher Comment (optional)</label>
+        <label for="tAssessComment" style="font-weight:600;font-size:0.85rem;color:var(--text-2);">Teacher Comment (optional)</label>
         <textarea id="tAssessComment" rows="3" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font-size:0.85rem;" placeholder="Add a comment..."></textarea>
       </div>`;
       html += `<button class="btn" id="tSubmitAssessBtn" style="background:var(--accent);color:white;border:none;padding:12px 24px;border-radius:10px;font-weight:600;cursor:pointer;min-height:48px;width:100%;margin-top:12px;">Submit & Award House Points</button>`;
@@ -5739,7 +6403,7 @@
       
       /* Year Group Dropdown (1-13) */
       html += `<div>
-        <label style="display:block;margin-bottom:8px;color:var(--text);font-weight:600;font-size:0.9rem;">Year Group</label>
+        <label for="scYearGroup" style="display:block;margin-bottom:8px;color:var(--text);font-weight:600;font-size:0.9rem;">Year Group</label>
         <select id="scYearGroup" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-size:0.95rem;">
           <option value="">-- Select Year --</option>`;
       for (let i = 1; i <= 13; i++) {
@@ -5750,7 +6414,7 @@
       
       /* Class Letter Input */
       html += `<div>
-        <label style="display:block;margin-bottom:8px;color:var(--text);font-weight:600;font-size:0.9rem;">Class Letter</label>
+        <label for="scClassLetter" style="display:block;margin-bottom:8px;color:var(--text);font-weight:600;font-size:0.9rem;">Class Letter</label>
         <input type="text" id="scClassLetter" placeholder="A, B, C..." style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-size:0.95rem;text-transform:uppercase;" maxlength="2">
       </div>`;
       
@@ -5920,11 +6584,11 @@
         let fhtml = `<div class="skill-def-form">
           <h4>Add New Sport</h4>
           <div class="form-group">
-            <label>Sport Name</label>
+            <label for="newSportName">Sport Name</label>
             <input type="text" id="newSportName" placeholder="e.g. Chess">
           </div>
           <div class="form-group">
-            <label>Emoji</label>
+            <label for="newSportEmoji">Emoji</label>
             <input type="text" id="newSportEmoji" placeholder="e.g. ♟️" maxlength="2">
           </div>
           <button class="btn" id="addSportBtn" style="background:var(--accent);color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:600;min-height:40px;">Add Sport</button>
@@ -6803,7 +7467,7 @@
         
         <div class="admin-controls">
           <div class="form-group">
-            <label>Season Cycle Type</label>
+            <label for="seasonCycleType">Season Cycle Type</label>
             <select id="seasonCycleType" class="form-select">
               <option value="Semester">Semester (every 6 months)</option>
               <option value="Trimester">Trimester (every 4 months)</option>
@@ -6812,7 +7476,7 @@
           </div>
           
           <div class="form-group">
-            <label>Reset Date</label>
+            <label for="seasonResetDate">Reset Date</label>
             <input type="date" id="seasonResetDate" class="form-input">
           </div>
         </div>
@@ -6905,11 +7569,11 @@
         
         <div class="admin-filters">
           <div class="form-group">
-            <label>Search</label>
+            <label for="umSearchInput">Search</label>
             <input type="text" id="umSearchInput" class="form-input" placeholder="Name or ID...">
           </div>
           <div class="form-group">
-            <label>Role</label>
+            <label for="umRoleFilter">Role</label>
             <select id="umRoleFilter" class="form-select">
               <option value="">All Roles</option>
               <option value="Student">Student</option>
@@ -7278,11 +7942,18 @@
       const progress = getLevelProgress(xp);
       const hp = student.housePoints || 0;
       const rank = computeRank(studentId);
-      const defaultAvatar = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><rect fill="%23ddd" width="120" height="120" rx="60"/><text x="60" y="68" text-anchor="middle" fill="%23999" font-size="40" font-family="sans-serif">' + fullName.charAt(0).toUpperCase() + '</text></svg>');
-      const photoSrc = student.profilePic || defaultAvatar;
 
-      /* Profile card */
-      document.getElementById('profilePhoto').src = photoSrc;
+      /* Profile card - Show profile picture */
+      const profilePhotoEl = document.getElementById('profilePhoto');
+      if (profilePhotoEl) {
+        if (student.profilePic) {
+          profilePhotoEl.src = student.profilePic;
+          profilePhotoEl.style.display = 'block';
+        } else {
+          profilePhotoEl.style.display = 'none';
+        }
+      }
+      
       document.getElementById('profileName').textContent = fullName;
       document.getElementById('profileClass').textContent = student.classGrade + ' | ' + student.keyStage;
       const housePill = document.getElementById('profileHouse');
@@ -7290,23 +7961,50 @@
       housePill.className = 'house-pill ' + student.house;
       document.getElementById('profileHP').textContent = hp;
       document.getElementById('profileRank').textContent = '#' + rank;
+      
+      /* Update level badge */
+      const avatarLevelBadge = document.getElementById('avatarLevel');
+      if (avatarLevelBadge) {
+        avatarLevelBadge.textContent = `Lv ${level}`;
+        avatarLevelBadge.style.animation = 'none';
+      }
 
-      /* Avatar centre */
-      document.getElementById('avatarPhoto').src = photoSrc;
-      document.getElementById('avatarLevel').textContent = 'Lv ' + level;
+      /* Avatar Centre - NEW CHIBI AVATAR WITH PROGRESSION */
+      const avatarFigureWrapper = document.getElementById('avatarFigureWrapper');
+      const avatarRing = document.getElementById('avatarRing');
+      if (avatarFigureWrapper && avatarRing) {
+        const ringSize = getAvatarRingSizeByLevel(level);
+        const avatarHTML = renderChibiAvatar(student, 'dynamic', 'happy');
 
-      /* Ring style based on level */
+        avatarRing.style.width = `${ringSize}px`;
+        avatarRing.style.height = `${ringSize}px`;
+        avatarFigureWrapper.style.width = '100%';
+        avatarFigureWrapper.style.height = '100%';
+
+        avatarFigureWrapper.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">
+          ${avatarHTML}
+        </div>`;
+      }
+
+      /* Ring style based on level - with glow progression */
       const ring = document.getElementById('avatarRingBorder');
       ring.className = 'ring';
       ring.style.color = getHouseColor(student.house);
       ring.style.borderColor = getHouseColor(student.house);
 
-      if (level >= 16) {
+      /* Glow intensifies with level milestones */
+      if (level >= 40) {
+        ring.classList.add('level-legendary');
+        ring.style.boxShadow = `0 0 20px ${getHouseColor(student.house)}`;
+      } else if (level >= 30) {
+        ring.classList.add('level-elite');
+        ring.style.boxShadow = `0 0 16px ${getHouseColor(student.house)}`;
+      } else if (level >= 20) {
+        ring.classList.add('level-strong');
+        ring.style.boxShadow = `0 0 12px ${getHouseColor(student.house)}`;
+      } else if (level >= 10) {
         ring.classList.add('level-glow');
-      } else if (level >= 11) {
-        ring.classList.add('level-double');
-      } else if (level >= 6) {
-        ring.classList.add('level-house');
+        ring.style.boxShadow = `0 0 8px ${getHouseColor(student.house)}`;
       } else {
         ring.classList.add('level-basic');
         ring.style.borderColor = '#999';
@@ -7318,8 +8016,8 @@
 
       /* Progress bar */
       document.getElementById('levelProgressBar').style.width = progress.percent + '%';
-      if (level >= 20) {
-        document.getElementById('levelProgressLabel').textContent = 'Max level reached!';
+      if (level >= 50) {
+        document.getElementById('levelProgressLabel').textContent = '🏆 MAX LEVEL! 🏆';
       } else {
         document.getElementById('levelProgressLabel').textContent = `${progress.current} / ${progress.needed} XP to Level ${level + 1}`;
       }
@@ -7528,7 +8226,9 @@
 
       /* Player stats and avatar */
       html += '<div style="text-align:center;margin-bottom:16px;">';
+      html += '<div id="arenaAvatarClickable" style="display:inline-block;cursor:pointer;transition:transform 0.2s ease;user-select:none;" title="Click to animate!">';
       html += renderAvatarHTML(student, true);
+      html += '</div>';
       html += '<div style="margin-top:8px;font-size:0.95rem;"><strong>' + student.firstName + ' ' + student.familyName + '</strong></div>';
       html += '<div style="font-size:0.85rem;color:var(--text-2);">' + (student.gloryPoints || 0) + ' Glory Points | ' + (student.arenaWins || 0) + ' Wins</div>';
       html += '</div>';
@@ -7557,6 +8257,33 @@
 
       mainView.innerHTML = html;
       document.getElementById('arenaResultsView').style.display = 'none';
+
+      /* Avatar click handler - animate on click */
+      const avatarClickable = document.getElementById('arenaAvatarClickable');
+      if (avatarClickable) {
+        avatarClickable.addEventListener('mouseenter', function() {
+          this.style.transform = 'scale(1.05)';
+        });
+        avatarClickable.addEventListener('mouseleave', function() {
+          this.style.transform = 'scale(1)';
+        });
+        avatarClickable.addEventListener('click', function() {
+          const emotions = ['happy', 'victory', 'determined', 'cool', 'proud'];
+          const randomEmotion = emotions[Math.floor(Math.random() * emotions.length)];
+          const avatarElement = this.querySelector('.avatar-container-chibi');
+          if (avatarElement) {
+            /* Animate scale and then render new emotion */
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+              this.style.transform = 'scale(1.05)';
+            }, 100);
+            setTimeout(() => {
+              this.style.transform = 'scale(1)';
+              updateAvatarEmotion(avatarElement, randomEmotion);
+            }, 200);
+          }
+        });
+      }
 
       /* Setup search functionality */
       const searchInput = document.getElementById('arenaSearchInput');
@@ -10436,9 +11163,8 @@ T001, teacher, Jane, Smith</code>
 
       html += `
         <div class="hp-personal">
-          <div style="text-align:center;margin-bottom:16px;">
-            <img src="${profilePic}" alt="${student.firstName} ${student.familyName}" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid var(--accent);">
-            <div style="margin-top:8px;font-weight:600;font-size:1.1rem;">${student.firstName} ${student.familyName}</div>
+          <div style="text-align:center;margin-bottom:12px;">
+            <div style="font-weight:600;font-size:1.1rem;">${student.firstName} ${student.familyName}</div>
           </div>
           <div class="hp-total">${myHP} HP</div>
           <div class="hp-rank">Rank #${houseRank || '-'} in ${myHouse} House \u2022 #${overallRank || '-'} overall</div>
